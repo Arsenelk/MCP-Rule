@@ -81,6 +81,8 @@ Before invoking a sensitive tool, the assistant should be able to answer:
 
 ## 5. Filesystem MCP Knowledge
 
+> Normative rules are maintained in `mcp_usage_rules.md`; this section is explanatory background and must not override the high-frequency rule card.
+
 Filesystem MCP is the preferred path for normal file operations: directory inspection, file reading, writing, editing, deletion, and targeted verification.
 
 Use `ls` only to confirm visible structure when needed. Once directory state is known, switch to the deliverable action rather than repeatedly probing.

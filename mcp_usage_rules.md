@@ -22,9 +22,15 @@ This file is the high-frequency rule card for MCP usage. It must stay concise, s
 3. Do not treat environment probing as task completion.
 4. Do not repeat checks of the same fact unless state changed, a tool failed, or the user requested it.
 5. If a tool fails, report the exact blocker or switch to a useful alternative instead of repeating the same call.
-6. After creating, modifying, or deleting content, perform one necessary verification step.
-7. Use Filesystem MCP for file reads, writes, edits, deletes, and directory inspection.
-8. Use Shell MCP only for command execution, runtime checks, parser checks, or validation that cannot be done by Filesystem MCP.
+6. Validate user-supplied paths before dependent operations; if a required path is invalid, warn the user and stop until the path is provided or confirmed.
+7. Preserve paths from users, config files, and handoff files verbatim; do not manually splice, compress, rename, beautify, or merge path segments.
+8. Preserve confirmed path spelling exactly, including apparent typos in real directory names; do not autocorrect path segments unless the user explicitly asks and a verified replacement path exists.
+9. Protect all copyable Windows paths and final status blocks containing paths in inline code or fenced code blocks.
+10. Verify required paths resolve on disk before emitting copyable handoff or status content; never emit known-invalid or markdown-collapsed paths.
+11. Before final response, confirm the requested deliverable was actually completed; do not substitute explanations, diagnostics, or environment probing for the required write/edit/action.
+12. After creating, modifying, or deleting content, perform one necessary verification step.
+13. Use Filesystem MCP for file reads, writes, edits, deletes, and directory inspection.
+14. Use Shell MCP only for command execution, runtime checks, parser checks, or validation that cannot be done by Filesystem MCP.
 
 ## Filesystem MCP Rules
 
