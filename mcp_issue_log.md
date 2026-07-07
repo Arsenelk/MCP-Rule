@@ -439,3 +439,41 @@ incident
 - Treat user/config/handoff paths as immutable values unless the user explicitly asks for transformation.
 - When emitting workflow paths, copy from the confirmed source path and preserve all separators and segment boundaries.
 - Keep only the short reusable path-preservation rule in the high-frequency MCP rule file; keep details of this incident in the issue log.
+
+## Issue: Doc-Layer Review False Failure From Stale Task-Text Baseline
+
+### Type
+
+incident
+
+### Date
+
+2026-07-07
+
+### MCP Service
+
+- Service: CherryFilesystem
+- Tool: read, edit
+
+### Symptoms
+
+- The FeishuAgent `lark-claude-server` project completed task 2, which updated the WorkSpace write-permission model.
+- Task 1 then created the `docs_ai` quick-read documentation layer.
+- A later review appeared to fail because the documentation described WorkSpace permission behavior introduced by task 2.
+
+### Cause Analysis
+
+- The review baseline was taken from the task text's background/current-status section instead of the current on-disk source state.
+- The task text predated later approved changes, including the WorkSpace permission model, sandbox constraints, and related Codex runtime behavior.
+- Descriptive documentation was therefore compared against stale background context rather than the actual source files it was meant to describe.
+
+### Fix
+
+- Re-reviewed the documentation against the current source files and confirmed that the `docs_ai` layer accurately described the implemented WorkSpace permission model.
+- Added a concise reusable rule to `mcp_usage_rules.md`: review descriptive documents against current on-disk source state, not stale task-background text.
+- Kept the detailed incident record here so the high-frequency rule card remains concise.
+
+### Follow-Up Rules
+
+- For descriptive documentation reviews, treat current source files as the authoritative baseline.
+- Treat task-text background/current-status sections as historical context that may have been superseded by approved changes.

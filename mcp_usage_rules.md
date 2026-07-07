@@ -31,6 +31,7 @@ This file is the high-frequency rule card for MCP usage. It must stay concise, s
 12. After creating, modifying, or deleting content, perform one necessary verification step.
 13. Use Filesystem MCP for file reads, writes, edits, deletes, and directory inspection.
 14. Use Shell MCP only for command execution, runtime checks, parser checks, or validation that cannot be done by Filesystem MCP.
+15. When reviewing descriptive documents, baseline against the current on-disk source state, not the "background/current status" section of the task text; task text may predate later approved changes.
 
 ## Filesystem MCP Rules
 
