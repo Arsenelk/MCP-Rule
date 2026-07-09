@@ -477,3 +477,41 @@ incident
 
 - For descriptive documentation reviews, treat current source files as the authoritative baseline.
 - Treat task-text background/current-status sections as historical context that may have been superseded by approved changes.
+
+## Issue: Windows Shell MCP Pytest Directory Trailing Backslash ENOENT
+
+### Type
+
+incident
+
+### Date
+
+2026-07-09
+
+### MCP Service
+
+- Service: Shell MCP
+- Tool: execute-command
+
+### Symptoms
+
+- The work report command `python -m pytest feishu_bot\feature_test\ -m unit -q` was intended to run pytest unit tests under a directory.
+- Shell MCP returned a tool-layer `spawn ... ENOENT` for that directory-form command.
+- The test run was completed afterward by switching to an explicit file list instead of the trailing-backslash directory argument.
+
+### Cause Analysis
+
+- The failure is classified as a Shell MCP command/argument handling incident, not as a pytest test failure, because changing only the argument form allowed the run to complete.
+- On Windows, a directory argument ending in `\` immediately before additional options can be fragile across shell/spawn parsing layers.
+- The trailing backslash in `feishu_bot\feature_test\ -m` likely contributed to argument-boundary ambiguity before the `-m unit` option.
+
+### Fix
+
+- Avoided repeating the same failing command.
+- Re-ran pytest with an explicit file list, which completed the requested test execution.
+- Added a concise reusable rule to `mcp_usage_rules.md` advising against Windows Shell MCP directory arguments that end in `\` immediately before more options.
+
+### Follow-Up Rules
+
+- For Windows Shell MCP commands, prefer `feishu_bot\feature_test`, `feishu_bot/feature_test`, or explicit test files over `feishu_bot\feature_test\` when more options follow.
+- If a Shell MCP command fails with tool-layer `ENOENT`, do not repeat it unchanged; report the blocker or switch to a useful alternative.
